@@ -6,4 +6,15 @@
 @import url(tokens.css) layer(tokens);
 @import url(base.css) layer(base);
 @import url(components/hero.css) layer(components);
+@import url(components/calendar.css) layer(components);
 @import url(utilities.css) layer(utilities);
+
+@font-face {
+    font-family: 'Sokol tyrs';
+    src: url('../fonts/SokolTyrs-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Sokol fugner';
+    src: url('../fonts/SokolFugner-Regular.ttf');
+}

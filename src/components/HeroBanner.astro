@@ -1,14 +1,31 @@
 ---
+import Image from "astro/components/Image.astro";
+import logo from "../../public/icons/sokol_logo.png";
+import bg_image from "../../public/images/deco/sokol_4.jpg";
+
+interface Props {
+    use_bg: boolean;
+    class?: string;
+}
+
+const {use_bg} = Astro.props;
 
 ---
 
 <header class="hero">
-    <h1 class="hero__h1">Sokol Kostelec</h1>
     <nav class="hero__nav">
+        <Image class="hero__Image-logo" src={logo} alt="logo" />
         <ul class="hero__ul">
-            <li><a class="hero__action">Domů</a></li>
-            <li><a class="hero__action">Historie</a></li>
-            <li><a class="hero__action">Kontakt</a></li>
+            <li><a class="hero__action u-btn-action" href="/">Domů</a></li>
+            <li><a class="hero__action u-btn-action" href="/events">Kalendář akcí</a></li>
+            <li><a class="hero__action u-btn-action">Historie</a></li>
+            <li><a class="hero__action u-btn-action">Oddíly</a></li>
+            <li><a class="hero__action u-btn-action">Galerie</a></li>
+            <li><a class="hero__action u-btn-action">Kontakty</a></li>
         </ul>
     </nav>
+    {use_bg && (<div class="hero__div-container">
+            <Image class="hero__Image-bg" src={bg_image} alt="sokolovna"></Image>
+            <h1 class="hero__h1">TJ Sokol Kostelec nad Orlicí</h1>
+        </div>)}
 </header>

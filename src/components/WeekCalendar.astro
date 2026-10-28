@@ -1,0 +1,36 @@
+---
+
+import CalendarDay from "./CalendarDay.astro";
+
+const week_dates: Date[] = [];
+const now = new Date(Date.now());
+const diff = now.getDay() == 0 ? 6 : now.getDay() - 1;
+const day_milliseconds = 24*60*60*1000;
+const monday_milliseconds = Date.now() - (day_milliseconds * diff);
+
+for (let i = 0; i < 7; i++) {
+    week_dates[i] = new Date(monday_milliseconds + (i * day_milliseconds));
+}
+
+---
+
+<div class="calendar">
+    <ul>
+        <li><button>Filters</button></li>
+    </ul>
+    <div class="calendar__calendar">
+        <div class="calendar__times">
+            <div></div>
+        </div>
+        <div class="calendar__days">
+            <CalendarDay day_name="Pondělí" date={week_dates[0]}></CalendarDay>
+            <CalendarDay day_name="Úterý" date={week_dates[1]}></CalendarDay>
+            <CalendarDay day_name="Středa" date={week_dates[2]}></CalendarDay>
+            <CalendarDay day_name="Čtvrtek" date={week_dates[3]}></CalendarDay>
+            <CalendarDay day_name="Pátek" date={week_dates[4]}></CalendarDay>
+            <CalendarDay day_name="Sobota" date={week_dates[5]}></CalendarDay>
+            <CalendarDay day_name="Neděle" date={week_dates[6]}></CalendarDay>
+        </div>
+        <div class="calendar__data"></div>
+    </div>
+</div>

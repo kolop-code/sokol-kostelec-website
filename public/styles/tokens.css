@@ -1,3 +1,40 @@
 :root {
+    --color-primary: #ed1b24;
+    --color-secondary: #264bc0;
+    --color-border-primary: #000;
 
+    --color-action: #fff;
+    --color-action-hover: #afafaf;
+    --color-action-active: #555555;
+
+    --color-text: #fff;
+
+    --font-primary: Arial, Helvetica, sans-serif;
+    --font-fugner: 'Sokol fugner', Arial, Helvetica, sans-serif;
+    --font-tyrs: 'Sokol tyrs', Arial, Helvetica, sans-serif;
+
+    --space-2xs: 0.25rem;
+    --space-xs: calc(var(--space-2xs) * 2);
+    --space-s: calc(var(--space-2xs) * 3);
+    --space-m: calc(var(--space-2xs) * 4);
+    --space-l: calc(var(--space-2xs) * 6);
+    --space-xl: calc(var(--space-2xs) * 8);
+    --space-xxl: calc(var(--space-2xs) * 12);
+
+    --corner-radius-1: 8px;
+    --corner-radius-2: 12px;
+
+    --border-width-1: 1px;
+    --border-width-2: 3px;
+
+    --blur-1: 3px;
+
+    --font-size-xxs: 0.5em;
+    --font-size-xs: calc(var(--font-size-xxs) * 1.25);
+    --font-size-s: calc(var(--font-size-xxs) * 1.5);
+    --font-size-m: calc(var(--font-size-xxs) * 2);
+    --font-size-l: calc(var(--font-size-xxs) * 3);
+    --font-size-xl: calc(var(--font-size-xxs) * 4);
+    --font-size-xxl: calc(var(--font-size-xxs) * 6);
+    --font-size-3xl: calc(var(--font-size-xxs) * 8);
 }

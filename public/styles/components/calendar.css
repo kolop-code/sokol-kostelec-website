@@ -1,0 +1,34 @@
+
+.calendar {
+    background-color: var(--color-primary);
+}
+
+.calendar__calendar {
+    display: grid;
+    grid-template-areas: "none time" "days data";
+    grid-template-columns: 10rem 1fr;
+    grid-template-rows: 5rem 25rem;
+}
+
+.calendar__times {
+    grid-area: time;
+}
+
+.calendar__days {
+    grid-area: days;
+    display: flex;
+    flex-direction: column;
+    border: var(--border-width-1) solid var(--color-border-primary);
+
+    & > p {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: var(--font-tyrs), serif;
+    }
+}
+
+.calendar__data {
+    grid-area: data;
+}

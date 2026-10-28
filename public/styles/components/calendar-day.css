@@ -1,0 +1,11 @@
+.calendar-day {
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-day__day-name {
+
+}
+.calendar-day__day-date {
+
+}

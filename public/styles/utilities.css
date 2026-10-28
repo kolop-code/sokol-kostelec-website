@@ -1,0 +1,13 @@
+.u-btn-action {
+    color: var(--color-action);
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--color-action-hover);
+    }
+
+    &:active {
+        color: var(--color-action-active);
+    }
+}

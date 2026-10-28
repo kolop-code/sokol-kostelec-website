@@ -1,0 +1,14 @@
+---
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroBanner from "../components/HeroBanner.astro";
+import WeekCalendar from "../components/WeekCalendar.astro";
+
+---
+
+<BaseLayout>
+    <HeroBanner use_bg={false}></HeroBanner>
+    <main>
+        <WeekCalendar></WeekCalendar>
+    </main>
+</BaseLayout>

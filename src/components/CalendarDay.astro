@@ -1,0 +1,13 @@
+---
+interface Props {
+    day_name: string,
+    date: Date
+}
+
+const {day_name, date} = Astro.props;
+---
+
+<div class="calendar-day">
+    <p class="calendar-day__day-name">{day_name}</p>
+    <p class="calendar-day__day-date">{date.getDate() + "." + (date.getMonth() + 1)}</p>
+</div>
