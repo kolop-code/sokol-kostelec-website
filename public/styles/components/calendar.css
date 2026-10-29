@@ -1,24 +1,46 @@
 
+:root {
+    --columns: 24;
+    --column-width: 80px;
+}
+
 .calendar {
-    background-color: var(--color-primary);
+    background-color: white;
+    border: var(--border-width-2) solid black;
+    border-radius: var(--corner-radius-2);
 }
 
 .calendar__calendar {
     display: grid;
-    grid-template-areas: "none time" "days data";
-    grid-template-columns: 10rem 1fr;
-    grid-template-rows: 5rem 25rem;
+    grid-template-areas: "none data" "days data";
+    grid-template-columns: 5rem 1fr;
+    grid-template-rows: 2.5rem 25rem;
 }
 
 .calendar__times {
-    grid-area: time;
+    display: flex;
+    height: 2.5rem;
+    width: calc(var(--columns) * var(--column-width));
+    border-bottom: var(--border-width-1) solid black
+}
+
+.calendar__time {
+    height: 100%;
+    width: var(--column-width);
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-tyrs), serif;
+    font-size: var(--font-size-m);
+    color: black;
 }
 
 .calendar__days {
     grid-area: days;
     display: flex;
     flex-direction: column;
-    border: var(--border-width-1) solid var(--color-border-primary);
+    /*border: var(--border-width-1) solid var(--color-border-primary);*/
 
     & > p {
         flex: 1;
@@ -26,9 +48,53 @@
         justify-content: center;
         align-items: center;
         font-family: var(--font-tyrs), serif;
+        color: black;
     }
 }
 
 .calendar__data {
     grid-area: data;
+    display: flex;
+    flex-direction: column;
+    overflow-x: scroll;
+    border-left: var(--border-width-1) solid black
+}
+
+.calendar__days-data {
+    --columns: 24;
+    --line-color: #000;
+    --line-width: 1px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: calc(var(--columns) * var(--column-width));
+    clip-path: inset(0 1px 0 0);
+    background: repeating-linear-gradient(
+            to right,
+            transparent 0,
+            transparent calc(100% / var(--columns) - var(--line-width)),
+            var(--line-color) calc(100% / var(--columns) - var(--line-width)),
+            var(--line-color) calc(100% / var(--columns))
+    );
+}
+
+.calendar__day-data {
+    flex: 1;
+}
+
+.calendar__weekday {
+    /*--columns: 24;*/
+    /*--line-color: #fff;*/
+    /*--line-width: 1px;*/
+
+    /*background: repeating-linear-gradient(*/
+    /*        to right,*/
+    /*        transparent 0,*/
+    /*        transparent calc(100% / var(--columns) - var(--line-width)),*/
+    /*        var(--line-color) calc(100% / var(--columns) - var(--line-width)),*/
+    /*        var(--line-color) calc(100% / var(--columns))*/
+    /*);*/
+    border-left: var(--border-width-1) solid white;
+    /*border-right: var(--border-width-1) solid white;*/
+    border-bottom: var(--border-width-1) solid white;
 }

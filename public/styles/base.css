@@ -8,8 +8,12 @@ body {
     grid-template-rows: auto 1fr auto;
 }
 
+main {
+    width: 100%;
+}
+
 .main {
-    padding: 0 10%;
+    padding: 0 5%;
     grid-area: main;
 }
 

@@ -1,6 +1,7 @@
 ---
 
 import CalendarDay from "./CalendarDay.astro";
+import CalendarTime from "./CalendarTime.astro";
 
 const week_dates: Date[] = [];
 const now = new Date(Date.now());
@@ -12,25 +13,48 @@ for (let i = 0; i < 7; i++) {
     week_dates[i] = new Date(monday_milliseconds + (i * day_milliseconds));
 }
 
+interface Time {
+    loong_var: boolean,
+    time: string
+}
+
+const times: Time[] = []
+
+for (let i = 0; i < 48; i++) {
+    if (i % 2 == 0) {
+        times.push({loong_var: true, time: (i/2) + ":00"})
+    } else times.push({loong_var: false, time: ""})
+}
+
 ---
 
 <div class="calendar">
-    <ul>
-        <li><button>Filters</button></li>
-    </ul>
+    <!--<ul>-->
+    <!--    <li><button>Filters</button></li>-->
+    <!--</ul>-->
     <div class="calendar__calendar">
-        <div class="calendar__times">
-            <div></div>
-        </div>
         <div class="calendar__days">
-            <CalendarDay day_name="Pondělí" date={week_dates[0]}></CalendarDay>
-            <CalendarDay day_name="Úterý" date={week_dates[1]}></CalendarDay>
-            <CalendarDay day_name="Středa" date={week_dates[2]}></CalendarDay>
-            <CalendarDay day_name="Čtvrtek" date={week_dates[3]}></CalendarDay>
-            <CalendarDay day_name="Pátek" date={week_dates[4]}></CalendarDay>
-            <CalendarDay day_name="Sobota" date={week_dates[5]}></CalendarDay>
-            <CalendarDay day_name="Neděle" date={week_dates[6]}></CalendarDay>
+            <p>Pondělí</p>
+            <p>Úterý</p>
+            <p>Středa</p>
+            <p>Čtvrtek</p>
+            <p>Pátek</p>
+            <p>Sobota</p>
+            <p>Neděle</p>
         </div>
-        <div class="calendar__data"></div>
+        <div class="calendar__data">
+            <div class="calendar__times">
+                {Array.from({length: 24}).map((_, i) => <div class="calendar__time">{i + ":00"}</div>)}
+            </div>
+            <div class="calendar__days-data">
+                <div class="calendar__day-data"></div>
+                <div class="calendar__day-data"></div>
+                <div class="calendar__day-data"></div>
+                <div class="calendar__day-data"></div>
+                <div class="calendar__day-data"></div>
+                <div class="calendar__day-data"></div>
+                <div class="calendar__day-data"></div>
+            </div>
+        </div>
     </div>
 </div>

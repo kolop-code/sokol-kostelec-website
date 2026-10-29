@@ -1,0 +1,15 @@
+---
+interface Props {
+    long_variant: boolean,
+    time: string
+}
+
+const {long_variant, time} = Astro.props;
+---
+
+<div class="calendar-time">
+    {long_variant && (
+            <div class="calendar-time__time">{time}</div>
+    )}
+    <span class="calendar-time__stick"></span>
+</div>

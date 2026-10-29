@@ -1,0 +1,460 @@
+---
+type EventColor = "blue" | "purple" | "green" | "orange" | "red";
+
+interface CalendarEvent {
+    date: string;       // YYYY-MM-DD
+    title: string;
+    start: string;      // HH:mm
+    end: string;        // HH:mm
+    color?: EventColor;
+}
+
+interface Props {
+    weekStart?: string; // Monday, YYYY-MM-DD
+    events?: CalendarEvent[];
+    startHour?: number; // First visible hour
+    endHour?: number;   // Last visible hour
+}
+
+const {
+    weekStart,
+    events = [],
+    startHour = 7,
+    endHour = 21,
+} = Astro.props;
+
+const HOUR_WIDTH = 88;
+const DAY_LABEL_WIDTH = 118;
+const lastHour = Math.max(startHour + 1, endHour);
+
+const hours = Array.from(
+    { length: lastHour - startHour + 1 },
+    (_, i) => startHour + i
+);
+
+const timelineWidth = (lastHour - startHour) * HOUR_WIDTH;
+const visibleStart = startHour * 60;
+const visibleEnd = lastHour * 60;
+
+const pad2 = (value: number) => String(value).padStart(2, "0");
+
+function dateKey(date: Date) {
+    return `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+}
+
+function parseTime(time: string) {
+    const match = /^(\d{1,2}):([0-5]\d)$/.exec(time);
+    if (!match) return NaN;
+
+    const hour = Number(match[1]);
+    const minute = Number(match[2]);
+
+    if (hour < 0 || hour > 23) return NaN;
+
+    return hour * 60 + minute;
+}
+
+// Use the supplied Monday, or calculate the current week's Monday.
+let monday: Date;
+
+if (weekStart) {
+    monday = new Date(`${weekStart}T12:00:00`);
+} else {
+    monday = new Date();
+    monday.setHours(12, 0, 0, 0);
+    monday.setDate(
+        monday.getDate() - ((monday.getDay() + 6) % 7)
+    );
+}
+
+const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+];
+
+const todayKey = dateKey(new Date());
+
+const calendarDays = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + index);
+
+    const key = dateKey(date);
+
+    const dayEvents = events
+        .filter((event) => event.date === key)
+        .map((event) => ({
+            ...event,
+            startMinutes: parseTime(event.start),
+            endMinutes: parseTime(event.end),
+        }))
+        .filter((event) =>
+            Number.isFinite(event.startMinutes) &&
+            Number.isFinite(event.endMinutes) &&
+            event.endMinutes > event.startMinutes &&
+            event.startMinutes < visibleEnd &&
+            event.endMinutes > visibleStart
+        )
+        .sort((a, b) =>
+            a.startMinutes - b.startMinutes ||
+            b.endMinutes - a.endMinutes
+        );
+
+    // Assign each event to the first lane that is free.
+    const laneEnds: number[] = [];
+
+    const positionedEvents = dayEvents.map((event) => {
+        const clippedStart = Math.max(event.startMinutes, visibleStart);
+        const clippedEnd = Math.min(event.endMinutes, visibleEnd);
+
+        let lane = laneEnds.findIndex(
+            (laneEnd) => laneEnd <= clippedStart
+        );
+
+        if (lane === -1) {
+            lane = laneEnds.length;
+            laneEnds.push(clippedEnd);
+        } else {
+            laneEnds[lane] = clippedEnd;
+        }
+
+        return {
+            ...event,
+            lane,
+            left: ((clippedStart - visibleStart) / 60) * HOUR_WIDTH,
+            width: ((clippedEnd - clippedStart) / 60) * HOUR_WIDTH,
+            color: event.color ?? "blue",
+        };
+    });
+
+    const laneCount = Math.max(3, laneEnds.length);
+
+    return {
+        key,
+        name: dayNames[date.getDay()],
+        dateLabel: `${pad2(date.getDate())}.${pad2(date.getMonth() + 1)}.`,
+        isToday: key === todayKey,
+        height: Math.max(102, laneCount * 30 + 12),
+        events: positionedEvents,
+    };
+});
+---
+
+<div
+        class="calendar"
+        role="region"
+        aria-label="Weekly calendar"
+        tabindex="0"
+>
+    <div class="calendar-canvas">
+        <!-- Hour timeline -->
+        <div class="calendar-row timeline-row">
+            <div class="day-label day-label--header">
+                <span>WEEK</span>
+                <small>Schedule</small>
+            </div>
+
+            <div class="timeline">
+                {hours.map((hour, index) => (
+                        <div
+                                class:list={[
+                                    "hour-label",
+                                    index === 0 && "hour-label--first",
+                                    index === hours.length - 1 && "hour-label--last",
+                                ]}
+                                style={`left: ${(hour - startHour) * HOUR_WIDTH}px;`}
+                        >
+                            {pad2(hour)}:00
+                        </div>
+                ))}
+            </div>
+        </div>
+
+        <!-- One row per weekday -->
+        {calendarDays.map((day) => (
+                <div
+                        class:list={[
+                            "calendar-row",
+                            "day-row",
+                            day.isToday && "day-row--today",
+                        ]}
+                >
+                    <div class="day-label">
+                        <span class="day-name">{day.name}</span>
+                        <span class="day-date">{day.dateLabel}</span>
+                        {day.isToday && <span class="today-indicator">TODAY</span>}
+                    </div>
+
+                    <div
+                            class="time-track"
+                            style={`height: ${day.height}px;`}
+                    >
+                        {day.events.map((event) => (
+                                <div
+                                        class:list={[
+                                            "event",
+                                            `event--${event.color}`,
+                                        ]}
+                                        style={`left: ${event.left}px; width: ${event.width}px; top: ${8 + event.lane * 30}px;`}
+                                        title={`${event.title}: ${event.start}–${event.end}`}
+                                        aria-label={`${event.title}, ${event.start} to ${event.end}`}
+                                >
+                                    <span class="event-title">{event.title}</span>
+                                    <span class="event-time">
+                                {event.start}–{event.end}
+                            </span>
+                                </div>
+                        ))}
+                    </div>
+                </div>
+        ))}
+    </div>
+</div>
+
+<style>
+    :root {
+        --hour-width: 5px;
+        --day-label-width: 10px;
+        --timeline-width: 125px;
+    }
+    .calendar {
+        --border: #e2e8f0;
+        --grid-line: #e7ecf3;
+        --text: #243047;
+        --muted: #778399;
+        --header-bg: #f8fafc;
+
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: white;
+        color: var(--text);
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 13px;
+        box-shadow: 0 3px 14px rgb(30 50 80 / 5%);
+    }
+
+    .calendar:focus-visible {
+        outline: 2px solid #5085f5;
+        outline-offset: 3px;
+    }
+
+    .calendar-canvas {
+        width: max-content;
+        min-width: calc(var(--day-label-width) + var(--timeline-width));
+    }
+
+    .calendar-row {
+        display: flex;
+        width: max-content;
+        box-sizing: border-box;
+    }
+
+    .timeline-row {
+        height: 52px;
+        background: var(--header-bg);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .day-label {
+        box-sizing: border-box;
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        flex: 0 0 var(--day-label-width);
+        width: var(--day-label-width);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 3px;
+        padding: 9px 12px;
+        background: white;
+        border-right: 1px solid var(--border);
+    }
+
+    .day-label--header {
+        z-index: 4;
+        background: var(--header-bg);
+    }
+
+    .day-label--header > span {
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: 0.1em;
+    }
+
+    .day-label--header small {
+        color: var(--muted);
+        font-size: 11px;
+    }
+
+    .day-name {
+        font-weight: 650;
+        font-size: 12px;
+    }
+
+    .day-date {
+        color: var(--muted);
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .today-indicator {
+        color: #3168d8;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+    }
+
+    .timeline {
+        position: relative;
+        flex: 0 0 var(--timeline-width);
+        width: var(--timeline-width);
+        height: 52px;
+    }
+
+    .hour-label {
+        position: absolute;
+        top: 50%;
+        width: var(--hour-width);
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #66738a;
+        font-size: 11px;
+        font-weight: 650;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+
+    .hour-label--first {
+        transform: translateY(-50%);
+        text-align: left;
+        padding-left: 8px;
+        box-sizing: border-box;
+    }
+
+    .hour-label--last {
+        transform: translate(-100%, -50%);
+        text-align: right;
+        padding-right: 8px;
+        box-sizing: border-box;
+    }
+
+    .day-row {
+        border-bottom: 1px solid var(--border);
+    }
+
+    .day-row:last-child {
+        border-bottom: 0;
+    }
+
+    .day-row--today .day-label {
+        background: #f5f8ff;
+    }
+
+    .day-row--today .day-name {
+        color: #3168d8;
+    }
+
+    .time-track {
+        box-sizing: border-box;
+        position: relative;
+        flex: 0 0 var(--timeline-width);
+        width: var(--timeline-width);
+        background-color: white;
+
+        /* A vertical separator every hour. */
+        background-image: repeating-linear-gradient(
+                to right,
+                var(--grid-line) 0,
+                var(--grid-line) 1px,
+                transparent 1px,
+                transparent var(--hour-width)
+        );
+    }
+
+    .event {
+        box-sizing: border-box;
+        position: absolute;
+        z-index: 1;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0 6px;
+        overflow: hidden;
+        border: 1px solid;
+        border-left-width: 3px;
+        border-radius: 5px;
+        font-size: 11px;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: default;
+        transition:
+                filter 120ms ease,
+                box-shadow 120ms ease;
+    }
+
+    .event:hover {
+        z-index: 2;
+        filter: saturate(1.15);
+        box-shadow: 0 2px 7px rgb(30 50 80 / 15%);
+    }
+
+    .event-title {
+        min-width: 0;
+        flex: 1 1 auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 700;
+    }
+
+    .event-time {
+        flex: 0 0 auto;
+        font-size: 10px;
+        font-variant-numeric: tabular-nums;
+        opacity: 0.9;
+    }
+
+    .event--blue {
+        color: #2459a6;
+        background: #eaf2ff;
+        border-color: #bed5ff;
+        border-left-color: #4f83ed;
+    }
+
+    .event--purple {
+        color: #6941a5;
+        background: #f2eaff;
+        border-color: #ddcafa;
+        border-left-color: #9565df;
+    }
+
+    .event--green {
+        color: #23754e;
+        background: #e5f7ed;
+        border-color: #b6e8cc;
+        border-left-color: #39a96b;
+    }
+
+    .event--orange {
+        color: #995516;
+        background: #fff1df;
+        border-color: #f8d4a8;
+        border-left-color: #e99a3e;
+    }
+
+    .event--red {
+        color: #a33243;
+        background: #ffeaed;
+        border-color: #fac3cc;
+        border-left-color: #e25b70;
+    }
+</style>
