@@ -1,0 +1,23 @@
+
+.calendar-event {
+    width: var(--calendar-event-width);
+    height: var(--calendar-event-height);
+    display: flex;
+    border-radius: var(--corner-radius-1);
+    border: var(--border-width-1) solid black;
+    overflow: hidden;
+    background: transparent;
+
+    -webkit-backdrop-filter: blur(var(--blur-1));
+    backdrop-filter: blur(var(--blur-1));
+}
+
+.calendar-event__tag {
+    height: 100%;
+    width: 8px;
+    background: darkorange;
+}
+
+.calendar-event__title {
+
+}

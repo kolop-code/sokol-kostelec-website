@@ -1,13 +1,21 @@
 ---
 interface Props {
     day_name: string,
-    date: Date
+    date: Date,
 }
 
 const {day_name, date} = Astro.props;
+
+const now = new Date(Date.now());
+const is_today = now.getDate() == date.getDate() && now.getMonth() == date.getMonth();
 ---
 
 <div class="calendar-day">
-    <p class="calendar-day__day-name">{day_name}</p>
+    <p class:list={[{
+        relative: true,
+        "calendar-day__day-name": true,
+        "calendar-day__day-name--today": is_today,
+    }]}>{day_name}</p>
     <p class="calendar-day__day-date">{date.getDate() + "." + (date.getMonth() + 1)}</p>
+    {is_today && (<p class="calendar-day__today">Dnes</p>)}
 </div>

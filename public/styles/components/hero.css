@@ -1,6 +1,7 @@
 .hero {
     background: var(--color-primary);
     grid-area: header;
+    padding: 0;
 }
 
 .hero__nav {

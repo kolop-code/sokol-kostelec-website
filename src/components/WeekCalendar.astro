@@ -1,7 +1,7 @@
 ---
 
 import CalendarDay from "./CalendarDay.astro";
-import CalendarTime from "./CalendarTime.astro";
+import CalendarEvent from "./CalendarEvent.astro";
 
 const week_dates: Date[] = [];
 const now = new Date(Date.now());
@@ -26,6 +26,22 @@ for (let i = 0; i < 48; i++) {
     } else times.push({loong_var: false, time: ""})
 }
 
+async function loadEvents() {
+    const response = await fetch(new URL("/api/calendar/events", Astro.url));
+
+    if (!response.ok) {
+        throw new Error("Could not load calendar");
+    }
+
+    const events = await response.json();
+
+    console.log(events);
+
+    // Render events in your custom calendar.
+}
+
+loadEvents();
+
 ---
 
 <div class="calendar">
@@ -34,27 +50,30 @@ for (let i = 0; i < 48; i++) {
     <!--</ul>-->
     <div class="calendar__calendar">
         <div class="calendar__days">
-            <p>Pondělí</p>
-            <p>Úterý</p>
-            <p>Středa</p>
-            <p>Čtvrtek</p>
-            <p>Pátek</p>
-            <p>Sobota</p>
-            <p>Neděle</p>
+            <CalendarDay date={week_dates[0]} day_name="Pondělí"></CalendarDay>
+            <CalendarDay date={week_dates[1]} day_name="Úterý"></CalendarDay>
+            <CalendarDay date={week_dates[2]} day_name="Středa"></CalendarDay>
+            <CalendarDay date={week_dates[3]} day_name="Čtvrtek"></CalendarDay>
+            <CalendarDay date={week_dates[4]} day_name="Pátek"></CalendarDay>
+            <CalendarDay date={week_dates[5]} day_name="Sobota"></CalendarDay>
+            <CalendarDay date={week_dates[6]} day_name="Neděle"></CalendarDay>
         </div>
         <div class="calendar__data">
             <div class="calendar__times">
-                {Array.from({length: 24}).map((_, i) => <div class="calendar__time">{i + ":00"}</div>)}
+                {Array.from({length: 23}).map((_, i) => <div class="calendar__time">{(i + 1) + ":00"}</div>)}
             </div>
             <div class="calendar__days-data">
-                <div class="calendar__day-data"></div>
-                <div class="calendar__day-data"></div>
-                <div class="calendar__day-data"></div>
-                <div class="calendar__day-data"></div>
-                <div class="calendar__day-data"></div>
-                <div class="calendar__day-data"></div>
-                <div class="calendar__day-data"></div>
+                <div class="calendar__day-data" id="calendar__monday">
+                    <CalendarEvent title="test" width="240px" height="2rem"></CalendarEvent>
+                </div>
+                <div class="calendar__day-data" id="calendar__tuesday"></div>
+                <div class="calendar__day-data" id="calendar__wednesday"></div>
+                <div class="calendar__day-data" id="calendar__thursday"></div>
+                <div class="calendar__day-data" id="calendar__friday"></div>
+                <div class="calendar__day-data" id="calendar__saturday"></div>
+                <div class="calendar__day-data" id="calendar__sunday"></div>
             </div>
         </div>
+        <div class="calendar__title"></div>
     </div>
 </div>

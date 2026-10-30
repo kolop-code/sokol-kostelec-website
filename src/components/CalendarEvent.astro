@@ -1,0 +1,16 @@
+---
+interface Props {
+    title: string,
+    width: string,
+    height: string
+}
+
+const {title, width, height} = Astro.props;
+
+---
+
+<div class="calendar-event"
+     style=`--calendar-event-width: ${width}; --calendar-event-height: ${height}`>
+    <div class="calendar-event__tag"></div>
+    <div class="calendar-event__title">{title}</div>
+</div>

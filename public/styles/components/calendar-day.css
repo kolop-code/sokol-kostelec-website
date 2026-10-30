@@ -1,17 +1,38 @@
 .calendar-day {
     display: flex;
     flex-direction: column;
+    background: var(--color-calendr-header-bg);
     flex: 1;
-}
 
-.calendar-day:not(:last-child) {
-    border-bottom: var(--border-width-1) solid white;
-    border-image: linear-gradient(to right, transparent 10%, white 20%) 1
+    &:not(:last-child) {
+        border-bottom: var(--border-width-2) solid var(--color-calendar-lines);
+    }
 }
 
 .calendar-day__day-name {
     height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-tyrs), serif;
+    color: var(--color-calendar-text);
+    font-size: var(--font-size-m);
+}
+
+.calendar-day__day-name--today {
+    color: var(--color-calendar-today-bg);
 }
 .calendar-day__day-date {
-    height: 50%;
+    font-family: var(--font-tyrs), serif;
+    color: var(--color-calendar-text-alt);
+    font-size: var(--font-size-s);
+    height: auto;
+    text-align: center;
+}
+
+.calendar-day__today {
+    font-family: var(--font-tyrs), serif;
+    color: var(--color-calendar-text-alt);
+    font-size: var(--font-size-xs);
+    text-align: center;
 }

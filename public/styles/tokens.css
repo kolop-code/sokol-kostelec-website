@@ -38,4 +38,17 @@
     --font-size-xl: calc(var(--font-size-xxs) * 4);
     --font-size-xxl: calc(var(--font-size-xxs) * 6);
     --font-size-3xl: calc(var(--font-size-xxs) * 8);
+
+    /* CALENDAR TOKENS */
+    --columns: 24;
+    --column-width: 80px;
+
+    --calendar-event-width: 0;
+    --calendar-event-height: 0;
+
+    --color-calendar-lines: #d5dde3;
+    --color-calendar-text: #243047;
+    --color-calendar-text-alt: #778399;
+    --color-calendr-header-bg: #ededf6;
+    --color-calendar-today-bg: #3168d8;
 }

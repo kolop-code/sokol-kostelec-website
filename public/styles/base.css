@@ -4,19 +4,17 @@ body {
     font-size: var(--font-size-m);
     display: grid;
     grid-template-areas: "header header" "main sidebar" "footer footer";
-    grid-template-columns: 1fr 19rem;
+    grid-template-columns: 1fr 23rem;
     grid-template-rows: auto 1fr auto;
 }
 
 main {
-    width: 100%;
-}
-
-.main {
-    padding: 0 5%;
     grid-area: main;
+    width: 100%;
+    padding: 0 2.5% 0 10%;
 }
 
-.sidebar {
+aside {
     grid-area: sidebar;
+    padding: 0 10% 0 2.5%;
 }
