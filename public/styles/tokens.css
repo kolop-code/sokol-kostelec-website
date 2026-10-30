@@ -21,8 +21,9 @@
     --space-xl: calc(var(--space-2xs) * 8);
     --space-xxl: calc(var(--space-2xs) * 12);
 
-    --corner-radius-1: 8px;
-    --corner-radius-2: 12px;
+    --corner-radius-1: 4px;
+    --corner-radius-2: 8px;
+    --corner-radius-3: 12px;
 
     --border-width-1: 1px;
     --border-width-2: 2px;
