@@ -18,3 +18,15 @@ aside {
     grid-area: sidebar;
     padding: 0 10% 0 2.5%;
 }
+
+@media (width < 1024px) {
+    body {
+        grid-template-areas: "header header" "main main" "sidebar sidebar" "footer footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+    }
+
+    main, aside {
+        padding: 0 10%;
+    }
+}

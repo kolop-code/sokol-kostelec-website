@@ -3,25 +3,38 @@ import ical from "node-ical";
 
 export const GET: APIRoute = async () => {
     try {
-        const url = import.meta.env.GOOGLE_ICAL_URL;
+        const response = [];
+        const urls = [];
+        urls[0] = import.meta.env.HLAVNI_SAL_URL;
+        urls[1] = import.meta.env.HORNI_SAL_URL;
+        urls[2] = import.meta.env.PIMPONKARNA_URL;
 
-        const calendar = await ical.async.fromURL(url);
+        let i = 0;
+        for (let url of urls) {
+            const calendar = await ical.async.fromURL(url);
 
-        const events = Object.values(calendar)
-            .filter(event => event !== undefined && event.type === "VEVENT")
-            .map(event => ({
-                id: event.uid,
-                title: event.summary,
-                description: event.description,
-                //location: event.location,
+            response[i] = Object.values(calendar)
+                .filter(event => event !== undefined && event.type === "VEVENT")
+                .map(event => ({
+                    id: event.uid,
+                    title: event.summary,
+                    description: event.description,
+                    //location: event.location,
 
-                start: event.start,
-                end: event.end,
+                    start: event.start,
+                    end: event.end,
 
-                allDay: event.start.dateOnly === true
-            }));
+                    allDay: event.start.dateOnly === true
+                }));
+            // Object.values(calendar)
+            //     .filter(event => event !== undefined && event.type === "VEVENT")
+            //     .map(event => (
+            //         console.log(event)
+            //     ))
+            i++
+        }
 
-        return Response.json(events);
+        return Response.json(response);
 
     } catch (error) {
         console.error("Calendar error:", error);

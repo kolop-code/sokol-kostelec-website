@@ -4,20 +4,52 @@
     height: var(--calendar-event-height);
     display: flex;
     border-radius: var(--corner-radius-1);
-    border: var(--border-width-1) solid black;
     overflow: hidden;
-    background: transparent;
+    position: absolute;
+    top: var(--calendar-event-top);
+    left: var(--calendar-event-left);
 
     -webkit-backdrop-filter: blur(var(--blur-1));
     backdrop-filter: blur(var(--blur-1));
 }
 
+.calendar-event--horni-sal {
+    border: var(--border-width-1) solid var(--color-calendar-theme-1-bd);
+    background: var(--color-calendar-theme-1-bg);
+
+    & > .calendar-event__tag {
+        background: var(--color-calendar-theme-1-tg);
+    }
+}
+
+.calendar-event--velky-sal {
+    border: var(--border-width-1) solid var(--color-calendar-theme-2-bd);
+    background: var(--color-calendar-theme-2-bg);
+
+    & > .calendar-event__tag {
+        background: var(--color-calendar-theme-2-tg);
+    }
+}
+
+.calendar-event--pinponkarna {
+    border: var(--border-width-1) solid var(--color-calendar-theme-3-bd);
+    background: var(--color-calendar-theme-3-bg);
+
+    & > .calendar-event__tag {
+        background: var(--color-calendar-theme-3-tg);
+    }
+}
+
 .calendar-event__tag {
     height: 100%;
     width: 8px;
-    background: darkorange;
 }
 
 .calendar-event__title {
-
+    font-family: var(--font-tyrs), serif;
+    font-size: var(--font-size-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+

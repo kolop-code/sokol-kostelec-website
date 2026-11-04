@@ -83,6 +83,7 @@
 
 .calendar__day-data {
     flex: 1;
+    position: relative;;
 
     &:not(:last-child) {
         border-bottom: var(--border-width-2) solid var(--color-calendar-lines);

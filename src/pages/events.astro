@@ -3,51 +3,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroBanner from "../components/HeroBanner.astro";
 import WeekCalendar from "../components/WeekCalendar.astro";
-import CalendarAI from "../components/CalendarAI.astro";
-
-const events = [
-    {
-        date: "2026-10-26",
-        title: "Team meeting",
-        start: "09:00",
-        end: "10:30",
-        color: "blue",
-    },
-    {
-        date: "2026-10-26",
-        title: "Code review",
-        start: "09:30",
-        end: "11:00",
-        color: "purple",
-    },
-    {
-        date: "2026-10-26",
-        title: "Planning",
-        start: "09:45",
-        end: "10:15",
-        color: "orange",
-    },
-    {
-        date: "2026-10-27",
-        title: "Lunch break",
-        start: "12:00",
-        end: "13:00",
-        color: "green",
-    },
-    {
-        date: "2026-10-29",
-        title: "Project deadline",
-        start: "15:00",
-        end: "16:00",
-        color: "red",
-    },
-] satisfies Array<{
-    date: string;
-    title: string;
-    start: string;
-    end: string;
-    color?: "blue" | "purple" | "green" | "orange" | "red";
-}>;
 
 ---
 
@@ -56,7 +11,7 @@ const events = [
     <main>
         <h2 class="u-title-h2">Kalendář akcí</h2>
         <WeekCalendar></WeekCalendar>
-        <CalendarAI events={events}></CalendarAI>
+        <!--<CalendarAI events={events}></CalendarAI>-->
     </main>
     <aside>
         <h3 class="u-title-h3">Nadcházející akce</h3>

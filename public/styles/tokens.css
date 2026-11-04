@@ -2,9 +2,11 @@
     --color-primary: #ed1b24;
     --color-secondary: #264bc0;
     --color-border-primary: #000;
+    --color-border-primary-contrast: #fff;
 
     --color-action: #fff;
     --color-action-hover: #afafaf;
+
     --color-action-active: #555555;
 
     --color-text: #fff;
@@ -40,16 +42,38 @@
     --font-size-xxl: calc(var(--font-size-xxs) * 6);
     --font-size-3xl: calc(var(--font-size-xxs) * 8);
 
+    /*-===============-*/
     /* CALENDAR TOKENS */
+    /*-===============-*/
     --columns: 24;
     --column-width: 80px;
 
+    /* Calendar variables */
     --calendar-event-width: 0;
     --calendar-event-height: 0;
+    --calendar-event-left: 0;
+    --calendar-event-top: 0;
+
+    /* Calendar events colors */
+    /* orange */
+    --color-calendar-theme-1-tg: darkorange;
+    --color-calendar-theme-1-bg: #ffa837;
+    --color-calendar-theme-1-bd: #d67400;
+    /* purple */
+    --color-calendar-theme-2-tg: purple;
+    --color-calendar-theme-2-bg: #a80ca8;
+    --color-calendar-theme-2-bd: #6c016c;
+    /* blue */
+    --color-calendar-theme-3-tg: royalblue;
+    --color-calendar-theme-3-bg: #5481ff;
+    --color-calendar-theme-3-bd: #3353c1;
 
     --color-calendar-lines: #d5dde3;
     --color-calendar-text: #243047;
     --color-calendar-text-alt: #778399;
     --color-calendr-header-bg: #ededf6;
     --color-calendar-today-bg: #3168d8;
+
+    /* breakpoints */
+    --breakpoint-m: 768px;
 }

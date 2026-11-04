@@ -1,12 +1,13 @@
 ---
-
 import CalendarDay from "./CalendarDay.astro";
 import CalendarEvent from "./CalendarEvent.astro";
+
+const height = 1.5;
 
 const week_dates: Date[] = [];
 const now = new Date(Date.now());
 const diff = now.getDay() == 0 ? 6 : now.getDay() - 1;
-const day_milliseconds = 24*60*60*1000;
+const day_milliseconds = 24 * 60 * 60 * 1000;
 const monday_milliseconds = Date.now() - (day_milliseconds * diff);
 
 for (let i = 0; i < 7; i++) {
@@ -22,7 +23,7 @@ const times: Time[] = []
 
 for (let i = 0; i < 48; i++) {
     if (i % 2 == 0) {
-        times.push({loong_var: true, time: (i/2) + ":00"})
+        times.push({loong_var: true, time: (i / 2) + ":00"})
     } else times.push({loong_var: false, time: ""})
 }
 
@@ -33,14 +34,47 @@ async function loadEvents() {
         throw new Error("Could not load calendar");
     }
 
-    const events = await response.json();
-
-    console.log(events);
+    return await response.json();
 
     // Render events in your custom calendar.
 }
 
-loadEvents();
+const event_data = await loadEvents();
+const data: {
+    is_day_right: (other: number) => boolean;
+    start: any;
+    end: any;
+    top: any,
+    title: any;
+    description: any;
+    design_index: number;
+}[] = [];
+
+
+// room_index -> 0 = Velky sal, 1 = Horni sal, 2 = Pimponkarna
+let room_index = 0;
+for (let room of event_data) {
+    for (let event of room) {
+        const now = new Date(event.start);
+        const start = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+        const end = new Date(new Date(event.end).getTime() - now.getTimezoneOffset() * 60000);
+        const top = room_index * height;
+
+        data.push({
+            is_day_right: function (other: number) {
+                const date_num = new Date(start).getDay();
+                return other == (date_num - 1 == -1 ? 6 : date_num - 1);
+            },
+            start: start,
+            end: end,
+            title: event.title,
+            description: event.description,
+            top: top,
+            design_index: room_index
+        })
+    }
+    room_index++;
+}
 
 ---
 
@@ -60,18 +94,28 @@ loadEvents();
         </div>
         <div class="calendar__data">
             <div class="calendar__times">
-                {Array.from({length: 23}).map((_, i) => <div class="calendar__time">{(i + 1) + ":00"}</div>)}
+                {Array.from({length: 23}).map((_, i) =>
+                        <div class="calendar__time">{(i + 1) + ":00"}</div>)}
             </div>
             <div class="calendar__days-data">
-                <div class="calendar__day-data" id="calendar__monday">
-                    <CalendarEvent title="test" width="240px" height="1.5rem"></CalendarEvent>
-                </div>
-                <div class="calendar__day-data" id="calendar__tuesday"></div>
-                <div class="calendar__day-data" id="calendar__wednesday"></div>
-                <div class="calendar__day-data" id="calendar__thursday"></div>
-                <div class="calendar__day-data" id="calendar__friday"></div>
-                <div class="calendar__day-data" id="calendar__saturday"></div>
-                <div class="calendar__day-data" id="calendar__sunday"></div>
+                {
+                    (Array.from({length: 7}).map((_, i) => (
+                            <div class="calendar__day-data">
+                                {
+                                    data.map((d) =>
+                                            d.is_day_right(i) && (
+                                                            <CalendarEvent end_hour={d.end}
+                                                                           height_={height + "rem"}
+                                                                           start_hour={d.start}
+                                                                           title={d.title}
+                                                                           top={d.top + "rem"}
+                                                                           design_index={d.design_index}></CalendarEvent>
+                                            )
+                                    )
+                                }
+                            </div>
+                    )))
+                }
             </div>
         </div>
         <div class="calendar__title"></div>

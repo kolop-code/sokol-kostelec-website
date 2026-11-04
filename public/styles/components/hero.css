@@ -2,12 +2,20 @@
     background: var(--color-primary);
     grid-area: header;
     padding: 0;
+    /*height: clamp(2.5rem, 10vh, 4.5rem);*/
+}
+
+.hero__container {
+    display: flex;
+    height: clamp(2.5rem, 10vh, 4.5rem);
+    width: 100vw;
 }
 
 .hero__nav {
     display: flex;
-    height: clamp(2.5rem, 10vh, 4.5rem);
+    height: 100%;
     margin: 0 var(--space-xs);
+    margin-left: auto;
 }
 
 .hero__ul {
@@ -24,13 +32,33 @@
 }
 
 .hero__action {
-    font-family: var(--font-tyrs), serif;
+
+}
+
+.hero__action--list {
+    display: none;
+    position: relative;
+    aspect-ratio: 1 / 1;
+    height: 60%;
+    align-self: center;
+    font-size: 2rem;
+    margin: 0 var(--space-xs) 0 auto;
+    grid-area: nav-button;
+    cursor: pointer;
+}
+
+#hamburger-menu {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /*cursor: none;*/
 }
 
 .hero__Image-logo {
     aspect-ratio: 1 / 1;
     object-fit: contain;
-    height: 100%;
+    height: clamp(2.5rem, 10vh, 4.5rem);
     width: auto;
 }
 
@@ -53,6 +81,8 @@
         -webkit-mask-image: linear-gradient(to top, transparent 0%, black 100%);
     }
 }
+
+
 
 .hero__Image-bg {
     aspect-ratio: 1019 / 635;
@@ -77,4 +107,39 @@
     transform: translate(0, 0);
     font-size: var(--font-size-3xl);
     font-family: var(--font-tyrs), serif;
+}
+
+@media (width < 768px) {
+    .hero__container {
+        display: grid;
+        grid-template-areas: "logo nav-button" "nav nav";
+        grid-template-columns: repeat(2, 50%);
+        grid-template-rows: clamp(2.5rem, 10vh, 4.5rem) 1fr;
+        height: fit-content;
+    }
+
+    .hero__Image-logo {
+        grid-area: logo;
+    }
+
+    .hero__action--list {
+        display: flex;
+    }
+
+    .hero__nav {
+        margin: 0 var(--space-xs) var(--space-l) var(--space-xs);
+        grid-area: nav;
+        display: none;
+    }
+
+    .hero__ul {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        width: 100%;
+    }
+
+    .hero__container:has(#hamburger-menu:checked) .hero__nav {
+        display: flex;
+    }
 }

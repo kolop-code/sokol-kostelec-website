@@ -13,17 +13,21 @@ const {use_bg} = Astro.props;
 ---
 
 <header class="hero">
-    <nav class="hero__nav">
+    <div class="hero__container">
         <Image class="hero__Image-logo" src={logo} alt="logo" />
-        <ul class="hero__ul">
-            <li><a class="hero__action u-btn-action" href="/">Domů</a></li>
-            <li><a class="hero__action u-btn-action" href="/events">Kalendář akcí</a></li>
-            <li><a class="hero__action u-btn-action">Historie</a></li>
-            <li><a class="hero__action u-btn-action">Oddíly</a></li>
-            <li><a class="hero__action u-btn-action">Galerie</a></li>
-            <li><a class="hero__action u-btn-action">Kontakty</a></li>
-        </ul>
-    </nav>
+        <button class="hero__action--list btn">≡
+        <input type="checkbox" id="hamburger-menu"></button>
+        <nav class="hero__nav">
+            <ul class="hero__ul">
+                <li><a class="hero__action btn-action" href="/">Domů</a></li>
+                <li><a class="hero__action btn-action" href="/events">Kalendář akcí</a></li>
+                <li><a class="hero__action btn-action">Historie</a></li>
+                <li><a class="hero__action btn-action">Oddíly</a></li>
+                <li><a class="hero__action btn-action">Galerie</a></li>
+                <li><a class="hero__action btn-action">Kontakty</a></li>
+            </ul>
+        </nav>
+    </div>
     {use_bg && (<div class="hero__div-container">
             <Image class="hero__Image-bg" src={bg_image} alt="sokolovna"></Image>
             <h1 class="hero__h1">TJ Sokol Kostelec nad Orlicí</h1>
