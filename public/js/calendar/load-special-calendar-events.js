@@ -3,7 +3,7 @@ import {api} from "../modules/api.mjs";
 const special_event_template = document.querySelector("#spacial-event-template");
 const special_calendar__events = document.querySelector(".special-calendar__events");
 
-for (let ev of await api("/api/calendar/special-events")) {
+for (let ev of await api("../api/calendar/special-events")) {
     const start = new Date(ev.start);
     const end = new Date(ev.end);
 

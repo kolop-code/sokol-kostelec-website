@@ -7,6 +7,4 @@ export async function api(path) {
     }
 
     return await response.json();
-
-    // Render api in your custom calendar.
 }
