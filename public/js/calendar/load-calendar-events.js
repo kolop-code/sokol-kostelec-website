@@ -1,9 +1,9 @@
-import {events} from "../modules/events.mjs";
+import {api} from "../modules/api.mjs";
 
 const days_data = document.getElementById("calendar__days-data");
 const day_event_template = document.querySelector("#calendar-event-template")
 
-const event_data = await events("sokol-kostelec-website/api/calendar/events");
+const event_data = await api("api/calendar/api");
 const data = [];
 
 const height = 1.5;

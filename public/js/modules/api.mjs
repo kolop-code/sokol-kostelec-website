@@ -1,4 +1,4 @@
-export async function events(path) {
+export async function api(path) {
     const response = await fetch(path);
 
     if (!response.ok) {
@@ -7,5 +7,5 @@ export async function events(path) {
 
     return await response.json();
 
-    // Render events in your custom calendar.
+    // Render api in your custom calendar.
 }
