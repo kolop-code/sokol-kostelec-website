@@ -14,7 +14,7 @@ const {use_bg} = Astro.props;
 
 <header class="hero">
     <div class="hero__container">
-        <a class="hero__homepage" href="/"><Image class="hero__Image-logo" src={logo} alt="logo" /></a>
+        <a class="hero__homepage" href=`${import.meta.env.BASE_URL}`><Image class="hero__Image-logo" src={logo} alt="logo" /></a>
         <button class="hero__action--list btn">≡
         <input type="checkbox" id="hamburger-menu"></button>
         <nav class="hero__nav">
