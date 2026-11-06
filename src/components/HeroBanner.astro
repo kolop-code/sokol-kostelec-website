@@ -19,12 +19,12 @@ const {use_bg} = Astro.props;
         <input type="checkbox" id="hamburger-menu"></button>
         <nav class="hero__nav">
             <ul class="hero__ul">
-                <li><a class="hero__action btn-action" href="/">Domů</a></li>
-                <li><a class="hero__action btn-action" href="/events">Kalendář akcí</a></li>
-                <li><a class="hero__action btn-action" href="/history">Historie</a></li>
-                <li><a class="hero__action btn-action" href="/partitions">Oddíly</a></li>
-                <li><a class="hero__action btn-action" href="/photogalery">Galerie</a></li>
-                <li><a class="hero__action btn-action" href="/contacts">Kontakty</a></li>
+                <li><a class="hero__action btn-action" href=`${import.meta.env.BASE_URL}`>Domů</a></li>
+                <li><a class="hero__action btn-action" href=`${import.meta.env.BASE_URL}events/`>Kalendář akcí</a></li>
+                <li><a class="hero__action btn-action" href=`${import.meta.env.BASE_URL}history/`>Historie</a></li>
+                <li><a class="hero__action btn-action" href=`${import.meta.env.BASE_URL}partitions/`>Oddíly</a></li>
+                <li><a class="hero__action btn-action" href=`${import.meta.env.BASE_URL}photogalery/`>Galerie</a></li>
+                <li><a class="hero__action btn-action" href=`${import.meta.env.BASE_URL}contacts/`>Kontakty</a></li>
             </ul>
         </nav>
     </div>
