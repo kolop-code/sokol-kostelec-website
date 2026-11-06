@@ -55,11 +55,15 @@
     /*cursor: none;*/
 }
 
-.hero__Image-logo {
+.hero__homepage {
     aspect-ratio: 1 / 1;
     object-fit: contain;
     height: clamp(2.5rem, 10vh, 4.5rem);
-    width: auto;
+}
+
+.hero__Image-logo {
+    height: 100%;
+    width: 100%;
 }
 
 .hero__div-container {

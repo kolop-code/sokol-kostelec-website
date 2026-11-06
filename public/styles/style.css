@@ -11,6 +11,8 @@
 @import url(components/calendar.css) layer(components);
 @import url(components/calendar-day.css) layer(components);
 @import url(components/calendar-event.css) layer(components);
+@import url(components/special-calendar.css) layer(components);
+@import url(components/special-event.css) layer(components);
 @import url(utilities.css) layer(utilities);
 
 @font-face {

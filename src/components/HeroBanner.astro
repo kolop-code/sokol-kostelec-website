@@ -14,17 +14,17 @@ const {use_bg} = Astro.props;
 
 <header class="hero">
     <div class="hero__container">
-        <Image class="hero__Image-logo" src={logo} alt="logo" />
+        <a class="hero__homepage" href="/"><Image class="hero__Image-logo" src={logo} alt="logo" /></a>
         <button class="hero__action--list btn">≡
         <input type="checkbox" id="hamburger-menu"></button>
         <nav class="hero__nav">
             <ul class="hero__ul">
                 <li><a class="hero__action btn-action" href="/">Domů</a></li>
                 <li><a class="hero__action btn-action" href="/events">Kalendář akcí</a></li>
-                <li><a class="hero__action btn-action">Historie</a></li>
-                <li><a class="hero__action btn-action">Oddíly</a></li>
-                <li><a class="hero__action btn-action">Galerie</a></li>
-                <li><a class="hero__action btn-action">Kontakty</a></li>
+                <li><a class="hero__action btn-action" href="/history">Historie</a></li>
+                <li><a class="hero__action btn-action" href="/partitions">Oddíly</a></li>
+                <li><a class="hero__action btn-action" href="/photogalery">Galerie</a></li>
+                <li><a class="hero__action btn-action" href="/contacts">Kontakty</a></li>
             </ul>
         </nav>
     </div>

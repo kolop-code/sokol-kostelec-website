@@ -1,6 +1,11 @@
 ---
 import CalendarDay from "./CalendarDay.astro";
-import CalendarEvent from "./CalendarEvent.astro";
+
+interface Props {
+    time_offset: number
+}
+
+const {time_offset} = Astro.props;
 
 const height = 1.5;
 
@@ -13,75 +18,16 @@ const monday_milliseconds = Date.now() - (day_milliseconds * diff);
 for (let i = 0; i < 7; i++) {
     week_dates[i] = new Date(monday_milliseconds + (i * day_milliseconds));
 }
-
-interface Time {
-    loong_var: boolean,
-    time: string
-}
-
-const times: Time[] = []
-
-for (let i = 0; i < 48; i++) {
-    if (i % 2 == 0) {
-        times.push({loong_var: true, time: (i / 2) + ":00"})
-    } else times.push({loong_var: false, time: ""})
-}
-
-async function loadEvents() {
-    const response = await fetch(new URL("/api/calendar/events", Astro.url));
-
-    if (!response.ok) {
-        throw new Error("Could not load calendar");
-    }
-
-    return await response.json();
-
-    // Render events in your custom calendar.
-}
-
-const event_data = await loadEvents();
-const data: {
-    is_day_right: (other: number) => boolean;
-    start: any;
-    end: any;
-    top: any,
-    title: any;
-    description: any;
-    design_index: number;
-}[] = [];
-
-
-// room_index -> 0 = Velky sal, 1 = Horni sal, 2 = Pimponkarna
-let room_index = 0;
-for (let room of event_data) {
-    for (let event of room) {
-        const now = new Date(event.start);
-        const start = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-        const end = new Date(new Date(event.end).getTime() - now.getTimezoneOffset() * 60000);
-        const top = room_index * height;
-
-        data.push({
-            is_day_right: function (other: number) {
-                const date_num = new Date(start).getDay();
-                return other == (date_num - 1 == -1 ? 6 : date_num - 1);
-            },
-            start: start,
-            end: end,
-            title: event.title,
-            description: event.description,
-            top: top,
-            design_index: room_index
-        })
-    }
-    room_index++;
-}
-
 ---
 
+<template id="calendar-event-template">
+    <div class="calendar-event">
+        <div class="calendar-event__tag"></div>
+        <div class="calendar-event__title"></div>
+    </div>
+</template>
+
 <div class="calendar">
-    <!--<ul>-->
-    <!--    <li><button>Filters</button></li>-->
-    <!--</ul>-->
     <div class="calendar__calendar">
         <div class="calendar__days">
             <CalendarDay date={week_dates[0]} day_name="Pondělí"></CalendarDay>
@@ -94,30 +40,14 @@ for (let room of event_data) {
         </div>
         <div class="calendar__data">
             <div class="calendar__times">
-                {Array.from({length: 23}).map((_, i) =>
-                        <div class="calendar__time">{(i + 1) + ":00"}</div>)}
+                {Array.from({length: 23 - time_offset}).map((_, i) =>
+                        <div class="calendar__time">{(i + 1 + time_offset) + ":00"}</div>)}
             </div>
-            <div class="calendar__days-data">
-                {
-                    (Array.from({length: 7}).map((_, i) => (
-                            <div class="calendar__day-data">
-                                {
-                                    data.map((d) =>
-                                            d.is_day_right(i) && (
-                                                            <CalendarEvent end_hour={d.end}
-                                                                           height_={height + "rem"}
-                                                                           start_hour={d.start}
-                                                                           title={d.title}
-                                                                           top={d.top + "rem"}
-                                                                           design_index={d.design_index}></CalendarEvent>
-                                            )
-                                    )
-                                }
-                            </div>
-                    )))
-                }
+            <div class="calendar__days-data" id="calendar__days-data">
+
             </div>
         </div>
         <div class="calendar__title"></div>
     </div>
+    <script type="module" src="/js/calendar/load-calendar-events.js" defer></script>
 </div>

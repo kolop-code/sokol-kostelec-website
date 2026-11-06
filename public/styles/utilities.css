@@ -1,15 +1,55 @@
 .u-title-h2 {
     color: var(--color-secondary);
     font-size: var(--font-size-xxl);
-    font-family: var(--font-fugner), serif;
-    padding: var(--space-l) 0;
+    font-family: var(--font-tyrs), serif;
 }
 
 .u-title-h3 {
     color: var(--color-secondary);
     font-size: var(--font-size-l);
     font-family: var(--font-tyrs), serif;
-    padding: var(--space-m) 0;
+}
+
+.u-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.u-center-vertical {
+    text-align: center;
+}
+
+.u-mt-2xs {
+    margin-top: var(--space-2xs);
+}
+
+.u-mt-xs {
+    margin-top: var(--space-xs);
+}
+
+.u-mt-s {
+    margin-top: var(--space-s);
+}
+
+.u-mt-m {
+    margin-top: var(--space-m);
+}
+
+.u-mt-l {
+    margin-top: var(--space-l);
+}
+
+.u-mt-xl {
+    margin-top: var(--space-xl);
+}
+
+.u-mt-xxl {
+    margin-top: var(--space-xxl);
+}
+
+.u-height-m {
+    height: 5rem;
 }
 
 .u-hidden {

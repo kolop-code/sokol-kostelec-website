@@ -3,13 +3,14 @@
     background-color: white;
     border: var(--border-width-2) solid var(--color-calendar-lines);
     border-radius: var(--corner-radius-3);
+    width: auto;
     overflow: hidden;
 }
 
 .calendar__calendar {
     display: grid;
     grid-template-areas: "title data" "days data";
-    grid-template-columns: 5.5rem 1fr;
+    grid-template-columns: 5.5rem auto;
     grid-template-rows: 2.5rem 40rem;
 }
 

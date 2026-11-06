@@ -1,0 +1,31 @@
+
+.special-event {
+    border: var(--border-width-1) solid var(--color-calendar-lines);
+    border-radius: var(--corner-radius-2);
+    margin: 0 var(--space-2xs);
+    overflow: hidden;
+    flex: 0 0;
+}
+
+.special-event__title {
+    background: var(--color-calendr-header-bg);
+    border-bottom: var(--border-width-1) solid var(--color-calendar-lines);
+    font-family: var(--font-tyrs), serif;
+    font-size: var(--font-size-m);
+    color: var(--color-calendar-text)
+}
+
+.special-event__from, .special-event__to {
+    color: var(--color-calendar-text-alt);
+    font-family: var(--font-tyrs), serif;
+    font-size: var(--font-size-s);
+    padding: var(--space-xs) 0 0 var(--space-s);
+}
+
+.special-event__description {
+
+}
+
+.special-event > *:last-child {
+    padding-bottom: var(--space-xs);
+}

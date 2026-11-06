@@ -1,4 +1,4 @@
-import type { APIRoute } from "astro";
+import type {APIRoute} from "astro";
 import ical from "node-ical";
 
 export const GET: APIRoute = async () => {
@@ -8,6 +8,7 @@ export const GET: APIRoute = async () => {
         urls[0] = import.meta.env.HLAVNI_SAL_URL;
         urls[1] = import.meta.env.HORNI_SAL_URL;
         urls[2] = import.meta.env.PIMPONKARNA_URL;
+        urls[3] = import.meta.env.ZS_URL;
 
         let i = 0;
         for (let url of urls) {
@@ -19,18 +20,14 @@ export const GET: APIRoute = async () => {
                     id: event.uid,
                     title: event.summary,
                     description: event.description,
-                    //location: event.location,
 
                     start: event.start,
                     end: event.end,
 
+                    rules: event.rrule === undefined ? undefined : event.rrule.options,
+
                     allDay: event.start.dateOnly === true
                 }));
-            // Object.values(calendar)
-            //     .filter(event => event !== undefined && event.type === "VEVENT")
-            //     .map(event => (
-            //         console.log(event)
-            //     ))
             i++
         }
 

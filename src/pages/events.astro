@@ -3,17 +3,17 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroBanner from "../components/HeroBanner.astro";
 import WeekCalendar from "../components/WeekCalendar.astro";
+import SpecialCalendar from "../components/SpecialCalendar.astro";
 
 ---
 
 <BaseLayout>
     <HeroBanner use_bg={false}></HeroBanner>
     <main>
-        <h2 class="u-title-h2">Kalendář akcí</h2>
-        <WeekCalendar></WeekCalendar>
-        <!--<CalendarAI events={events}></CalendarAI>-->
+        <h2 class="u-title-h2 u-mt-s">Kalendář akcí</h2>
+        <WeekCalendar time_offset={7}></WeekCalendar>
     </main>
     <aside>
-        <h3 class="u-title-h3">Nadcházející akce</h3>
+        <SpecialCalendar></SpecialCalendar>
     </aside>
 </BaseLayout>
