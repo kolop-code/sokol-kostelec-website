@@ -14,11 +14,6 @@
 <div class="special-calendar u-mt-xxl">
     <h3 class="special-calendar__title u-center">Nadcházející akce</h3>
     <div class="special-calendar__events">
-        <!--{-->
-        <!--    events.map((data) =>-->
-        <!--            <SpecialEvent data={data}></SpecialEvent>-->
-        <!--    )-->
-        <!--}-->
     </div>
-    <script type="module" src="/js/calendar/load-special-calendar-events.js" defer></script>
+    <script type="module" src=`${import.meta.env.BASE_URL}js/calendar/load-special-calendar-events.js` defer></script>
 </div>
