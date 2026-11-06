@@ -1,4 +1,5 @@
 export async function api(path) {
+    console.log(path)
     const response = await fetch(path);
 
     if (!response.ok) {
