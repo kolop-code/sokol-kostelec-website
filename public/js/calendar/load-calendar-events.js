@@ -3,7 +3,7 @@ import {events} from "../modules/events.mjs";
 const days_data = document.getElementById("calendar__days-data");
 const day_event_template = document.querySelector("#calendar-event-template")
 
-const event_data = await events(`${import.meta.env.BASE_URL}api/calendar/events`);
+const event_data = await events("sokol-kostelec-website/api/calendar/events");
 const data = [];
 
 const height = 1.5;
